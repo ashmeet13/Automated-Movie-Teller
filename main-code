@@ -1,6 +1,7 @@
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from bs4 import BeautifulSoup
+import webbrowser
 import requests
 import smtplib
 import time
@@ -25,12 +26,9 @@ def name_filter(movie_name_list_items):
 
 def fetch_details():
     city_name = input("Choose the city you want details about:  ")
-    print("Enter the path to the mp3 file")
-    print("Example : C:/Users/ashme/Desktop/StarWars.mp3")
-    file_path = input("Enter here:  ")
     movie_name = input("Enter movie name here about which you would like to know the details (With correct spelling):  ")
     movie_name = letter_filter(movie_name)
-    return city_name,file_path,movie_name
+    return city_name,movie_name
 
 
 def fetch_link(link):
@@ -71,7 +69,7 @@ def automated_mail(send):
 
     mailserver.quit()
 
-city_name,file_path,movie_name = fetch_details()
+city_name,movie_name = fetch_details()
 link = "https://in.bookmyshow.com/"+city_name+"/movies"
 while True:
     movie_name_list_items = fetch_link(link)
@@ -83,6 +81,6 @@ while True:
         det = str(movie_name_list_items[movie_name_list.index(movie_name)])
         send = "https://in.bookmyshow.com"+get_movie_href(det)
         print(send)
-        os.system('start '+file_path)
+        webbrowser.open((send+"#trailer"))
         automated_mail(send)
         sys.exit()
