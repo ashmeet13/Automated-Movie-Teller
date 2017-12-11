@@ -5,7 +5,6 @@ import requests
 import smtplib
 import time
 import sys
-import os
 
 
 def letter_filter(input):
